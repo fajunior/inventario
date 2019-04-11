@@ -1,0 +1,22 @@
+{
+  "name": "inventario",
+  "version": "1.0.0",
+  "description": "Cadastro de inventario",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fajunior/inventario.git"
+  },
+  "keywords": [
+    "inventario"
+  ],
+  "author": "Francisco Athayde Junior",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fajunior/inventario/issues"
+  },
+  "homepage": "https://github.com/fajunior/inventario#readme"
+}
