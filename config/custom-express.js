@@ -1,10 +1,17 @@
 //importar a biblioteca do express
-const express = require('express'); 
+var express = require('express'); 
 //importa o consign
-const consign = require('consign');
+var consign = require('consign');
+//importa o body-parser
+var bodyparser = require('body-parser');
 
 module.exports = function(){
-    const app = express();
+    var app = express();
+
+    //para objetos json
++    app.use(bodyparser.json());
++    //para elementos http encoded
++    app.use(bodyparser.urlencoded({extended: true}));
 
     consign()
         //importa pasta de controladores
