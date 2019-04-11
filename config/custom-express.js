@@ -1,11 +1,16 @@
 //importar a biblioteca do express
 const express = require('express'); 
+//importa o consign
+const consign = require('consign');
 
 module.exports = function(){
     const app = express();
 
-    //importa o machineController
-    const machineController = require('../controllers/machineController')(app);
+    consign()
+        //importa pasta de controladores
+        .include('controllers')
+        //adiciona os controladores ao app
+        .into(app);
 
     return app;
 }
