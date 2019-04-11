@@ -16,6 +16,8 @@ module.exports = function(){
     consign()
         //importa pasta de controladores
         .include('controllers')
+        //importa pasta de persistencia
+        .then('persistence')
         //adiciona os controladores ao app
         .into(app);
 
