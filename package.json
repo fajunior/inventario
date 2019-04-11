@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/fajunior/inventario/issues"
   },
-  "homepage": "https://github.com/fajunior/inventario#readme"
+  "homepage": "https://github.com/fajunior/inventario#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
