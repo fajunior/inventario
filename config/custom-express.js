@@ -9,9 +9,12 @@ module.exports = function(){
     var app = express();
 
     //para objetos json
-+    app.use(bodyparser.json());
-+    //para elementos http encoded
-+    app.use(bodyparser.urlencoded({extended: true}));
+    app.use(bodyparser.json());
+    //para elementos http encoded
+    app.use(bodyparser.urlencoded({extended: true}));
+
+    // Set static folder
+    app.use(express.static('./public'))
 
     consign()
         //importa pasta de controladores
