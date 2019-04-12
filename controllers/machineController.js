@@ -1,17 +1,14 @@
-var machines = [
-    {"codigo":1,"tipoEquipamento":"Computador", "modelo":"Inspiron", "mesAnoAquisicao": "032019", "valorAquisicao":3000, "foto":"001.png"}
-];
-
 module.exports = function(app){
     app.get('/machine', function(req, res){
         var connection = app.persistence.connectionFactory;
         //já que o DAO tem um prototype então tenho que ter o new para garantir que cada thread tem um dao
         var machineDAO = new app.persistence.machineDAO(connection);
         machineDAO.list(function(error, queryResult){
-            var string=JSON.stringify(queryResult);
+            //var string=JSON.stringify(queryResult);
             json =  JSON.parse(string);
             res.send(json);
         });
+        
 
     });
 
@@ -21,17 +18,24 @@ module.exports = function(app){
         var connection = app.persistence.connectionFactory;
         
         var machineDAO = new app.persistence.machineDAO(connection);
+        
         machineDAO.insert(machine, function(error, queryResult){
             if (error) {
                 console.log(error);
                 res.send('Não foi possível inserir objeto');
             } else {
-                res.json(machine);
+               //Recupera o código e alimenta nos atributos da máquina
+                machineDAO.getCode(function(error2, queryResult2){
+                    var string=JSON.stringify(queryResult2);
+                    var newMachine =  queryResult2[0];
+                    var myNewVar={'5':'Electronics'};
+                    for (attribute in machine) {
+                        newMachine[attribute]=machine[attribute];
+                    }
+                   
+                    res.json(newMachine);
+                });
             }
         });
-
-        machines.push(machine);
-        console.log(machine);
-        res.send('Máquina cadastrada');
     })
 }

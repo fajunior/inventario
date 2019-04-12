@@ -9,16 +9,25 @@ machineDAO.prototype.insert = function (machine, callback) {
     var sql = 'INSERT INTO machine SET ?';
     this._connection.query(sql, machine, callback);
 }
+
 //Procedimentoi para listar
 machineDAO.prototype.list = function (callback) {
     var sql = 'select * from machine';
     this._connection.query(sql, callback);
 }
-//Procedimentoi para buscar por id
-machineDAO.prototype.findById = function (id, callback) {
+
+//Procedimentoi para buscar por codigo
+machineDAO.prototype.findByCode = function (codigo, callback) {
     var sql = 'select * from machine where codigo = ?';
-    this._connection.query(sql, [id], callback);
+    this._connection.query(sql, [codigo], callback);
 }
+
+//Procedimento para pegar o codigo inserido
+machineDAO.prototype.getCode = function (callback) {
+    var sql = 'select max(codigo) as codigo from machine';
+    this._connection.query(sql, callback);
+}
+
 module.exports = function () {
     return machineDAO;
 }
