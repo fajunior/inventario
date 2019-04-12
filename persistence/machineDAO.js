@@ -12,7 +12,7 @@ machineDAO.prototype.insert = function (machine, callback) {
 
 //Procedimentoi para listar
 machineDAO.prototype.list = function (callback) {
-    var sql = 'select * from machine';
+    var sql = "select codigo, tipoEquipamento, modelo, mesAnoAquisicao, valorAquisicao, concat('qrcode/',codigo,'.png') as qrcodeURL from machine";
     this._connection.query(sql, callback);
 }
 

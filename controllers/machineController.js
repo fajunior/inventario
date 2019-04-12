@@ -1,3 +1,6 @@
+const qr = require('qr-image');
+const fs = require('fs');
+
 module.exports = function(app){
     app.get('/machine', function(req, res){
         var connection = app.persistence.connectionFactory;
@@ -5,8 +8,8 @@ module.exports = function(app){
         var machineDAO = new app.persistence.machineDAO(connection);
         machineDAO.list(function(error, queryResult){
             //var string=JSON.stringify(queryResult);
-            json =  JSON.parse(string);
-            res.send(json);
+            //json =  JSON.parse(string);
+            res.send(queryResult);
         });
         
 
@@ -33,7 +36,21 @@ module.exports = function(app){
                         newMachine[attribute]=machine[attribute];
                     }
                    
-                    res.json(newMachine);
+                    //Gera o qrcode a partir do json
+                    var qr_png = qr.imageSync(JSON.stringify(newMachine),{ type: 'png'})
+                    let qr_code_file_name = newMachine.codigo + '.png';
+
+                    fs.writeFileSync('./public/qrcode/' + qr_code_file_name, qr_png, (err) => {
+                        if(err){
+                            console.log(err);
+                        }
+                        
+                    })
+
+                    // Send the link of generated QR code
+                    res.send({
+                        'qr_img': "qrcode/" + qr_code_file_name
+                    });
                 });
             }
         });
