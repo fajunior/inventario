@@ -1,10 +1,90 @@
 const qr = require('qr-image');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
+
+
 
 function getDao(app) {
     var connection = app.persistence.connectionFactory;
     var machineDAO = new app.persistence.machineDAO(connection);
     return machineDAO;
+}
+
+var inserir = function (machine, app) {
+    return new Promise((resolve, reject) => {
+        var machineDAO = getDao(app);
+        //Inserir máquina no banco
+        machineDAO.insert(machine, function (error, queryResult) {
+            if (error) {
+                console.log(error);
+                res.status(500).send('Não foi possível inserir objeto');
+            } else {
+
+                var machineDAO = getDao(app);
+                machineDAO.getCode(function (error2, queryResult2) {
+                    //recupera código da máquina inserida
+                    var newMachine = queryResult2[0];
+                    //Adiciona os dados passados na requisicao
+                    for (attribute in machine) {
+                        newMachine[attribute] = machine[attribute];
+                    }
+                    resolve(newMachine);
+                });
+            }
+
+        });
+    });
+}
+
+function gerarQRCode(newMachine) {
+    //Gera o qrcode a partir do json
+    var qr_png = qr.imageSync(JSON.stringify(newMachine), {
+        type: 'png'
+    })
+    let qr_code_file_name = newMachine.codigo + '.png';
+
+    fs.writeFileSync('./public/qrcode/' + qr_code_file_name, qr_png, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
+
+    return qr_code_file_name;
+}
+
+function enviarEmail(qrcodeName) {
+    var configFile = fs.readFileSync('config/config.json');
+    var config = JSON.parse(configFile);
+    //enviando email
+    var transporter = nodemailer.createTransport({
+        host: config.smtp,
+        port: config.port,
+        service: config.service,
+        auth: {
+            user: config.username,
+            pass: config.password
+        }
+    });
+
+    var message = '<p>Equipamento cadastrado com sucesso</p>';
+    console.log(message);
+    const mailOptions = {
+        from: config.fromMail, // sender address
+        to: config.destinationMail, // list of receivers
+        subject: config.subjectMail, // Subject line
+        html: message,
+        attachments: [{ // stream as an attachment
+            filename: 'qrcode.jpg',
+            content: fs.createReadStream('public/qrcode/' + qrcodeName)
+        }] // plain text body
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err)
+            console.log(err)
+        else
+            console.log(info);
+    });
 }
 
 module.exports = function (app) {
@@ -17,18 +97,7 @@ module.exports = function (app) {
         });
     });
 
-    //consulta por codigo
-    app.get('/machine/:code', function (req, res) {
-        var code = req.params.code;
-        var machineDAO = getDao(app);
-
-        machineDAO.findByCode(code, function (error, queryResult) {
-            var machine = queryResult[0];
-            res.send(machine);
-        });
-    });
-
-    app.delete('/machine/:code', function(req, res){
+    app.delete('/machine/:code', function (req, res) {
         var code = req.params.code;
         var machineDAO = getDao(app);
         machineDAO.delete(code, function (error, queryResult) {
@@ -47,11 +116,24 @@ module.exports = function (app) {
         var machine = req.body;
         var machineDAO = getDao(app);
 
+
+        inserir(machine, app).then((resultado) => {
+            console.log(resultado);
+            var qrcodeName = gerarQRCode(resultado);
+            enviarEmail(qrcodeName);
+            res.location('/machine/' + machine.codigo);
+            // Send the link of generated QR code
+            res.status(201).send({
+                'qr_img': "qrcode/" + qrcodeName
+            });
+        });
+
+        /*
         //Inserir máquina no banco
         machineDAO.insert(machine, function (error, queryResult) {
             if (error) {
                 console.log(error);
-                res.send('Não foi possível inserir objeto');
+                res.status(500).send('Não foi possível inserir objeto');
             } else {
                 //recuperar a máquina com todos os dados
                 machineDAO.getCode(function (error2, queryResult2) {
@@ -61,6 +143,8 @@ module.exports = function (app) {
                     for (attribute in machine) {
                         newMachine[attribute] = machine[attribute];
                     }
+
+
 
                     //Gera o qrcode a partir do json
                     var qr_png = qr.imageSync(JSON.stringify(newMachine), {
@@ -73,12 +157,44 @@ module.exports = function (app) {
                             console.log(err);
                         }
                     })
+
+                    //enviando email
+                    var transporter = nodemailer.createTransport({
+                        host: config.smtp,
+                        port: config.port,
+                        service: config.service,
+                        auth: {
+                            user: config.username,
+                            pass: config.password
+                        }
+                    });
+                    console.log(req);
+                    var message = '<p>Equipamento cadastrado com sucesso</p>';
+                    console.log(message);
+                    const mailOptions = {
+                        from: config.fromMail, // sender address
+                        to: config.destinationMail, // list of receivers
+                        subject: config.subjectMail, // Subject line
+                        html:  message,
+                        attachments: [{   // stream as an attachment
+                            filename: 'qrcode.jpg',
+                            content: fs.createReadStream('public/qrcode/'+ qr_code_file_name)
+                        }]// plain text body
+                    };
+
+                    transporter.sendMail(mailOptions, function (err, info) {
+                        if (err)
+                            console.log(err)
+                        else
+                            console.log(info);
+                    });
+                    res.location('/machine/' + machine.codigo);
                     // Send the link of generated QR code
-                    res.send({
+                    res.status(201).send({
                         'qr_img': "qrcode/" + qr_code_file_name
                     });
                 });
             }
-        });
-    })
+        });*/
+    });
 }

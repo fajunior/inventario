@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da maquina</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <main>
+        <form action="/machine" method="POST">
+            <div class="container">
+                <div class="container2">
+                    <div class="col-md-12"></div>
+                    <div class="titulo">Detalhes da Máquina</div>
+
+                    <div class="label">Tipo Equipamento:</div>
+                    <div class="description"><input type="text" name="tipoEquipamento"></div>
+
+                    <div class="label">Modelo:</div>
+                    <div class="description"><input type="text" name="modelo"></div>
+
+                    <div class="label">Aquisicao(Mes Ano):</div>
+                    <div class="description"><input type="text" name="mesAnoAquisicao"></div>
+
+                    <div class="label">Valor Aquisicao:</div>
+                    <div class="description"><input type="text" name="valorAquisicao"></div>
+
+                    <input type="hidden" name="nomeFoto" id="nomeFoto">
+
+                    <div class="buttons">
+                        <div class="picturebutton">
+                            <button type="button" onclick="addPicture()">Adicionar Foto</button>
+                        </div>
+                        <div class="manipulationbutton">
+                            <button type="submit" id="salvar">Salvar</button>
+                            <button type="button" id="salvar"
+                                onclick="document.location.href = 'http://localhost:3000/'">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal hidden" id="modal">
+                <h2>Adicionar Foto</h2>
+                <div>Adicione uma foto do equipamento a ser cadastrado para facilitar o reconhecimento!</div>
+                <div class="actions">
+                    <div class="divanexar">
+                        <input type="file" id="fileoupload">
+                    </div>
+                    <div class="divenviar">
+                        <input type="button" value="Enviar" onclick="sendPicture()">
+                        <input type="button" value="Cancelar" onclick="closePictureBox()">
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+        <div id="divbloqueio">
+        </div>
+
+    </main>
+
+    <script src="js/picture.js"></script>
+</body>
+
+</html>

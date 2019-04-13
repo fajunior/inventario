@@ -6,5 +6,6 @@ CREATE TABLE machine (
     modelo VARCHAR(50) NOT NULL,
     mesAnoAquisicao VARCHAR(6) NOT NULL,
     valorAquisicao decimal(15,2) NOT NULL,
+    nomeFoto VARCHAR(200) ,
     CONSTRAINT PK_MACHINE PRIMARY KEY (codigo)
 );

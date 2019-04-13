@@ -7,27 +7,37 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    
     <div class="container">
-        <div class="col-md-12"></div>
-        <div class="titulo">Detalhes da Máquina</div>
-        <div class="label">Codigo:</div>
-        <div class="description"><%=codigo%></div>
+        <div class="container2">
+            <div class="col-md-12"></div>
+            <div class="titulo">Detalhes da Máquina</div>
+            <div class="label">Codigo:</div>
+            <div class="description"><%=codigo%></div>
 
-        <div class="label">Tipo Equipamento:</div>
-        <div class="description"><%=tipoEquipamento%></div>
+            <div class="label">Tipo Equipamento:</div>
+            <div class="description"><%=tipoEquipamento%></div>
 
-        <div class="label">Modelo:</div>
-        <div class="description"><%=modelo%></div>
+            <div class="label">Modelo:</div>
+            <div class="description"><%=modelo%></div>
 
-        <div class="label">Aquisicao(Mes Ano):</div>
-        <div class="description"><%=mesAnoAquisicao%></div>
+            <div class="label">Aquisicao(Mes Ano):</div>
+            <div class="description"><%=mesAnoAquisicao%></div>
 
-        <div class="label">Valor Aquisicao:</div>
-        <div class="description"><%=valorAquisicao%></div>
+            <div class="label">Valor Aquisicao:</div>
+            <div class="description"><%=valorAquisicao%></div>
 
-        <div class="label">Depreciacao:</div>
-        <div class="description"><%=depreciacao%></div>
+            <div class="label">Depreciacao:</div>
+            <div class="description"><%=depreciacao%></div>
+
+            <div class="label">Valor Atual:</div>
+            <div class="description"><%=valorAtual%></div>
+
+            <figure class="picture"><img src="/pictures/<%=nomeFoto%>" alt=""></figure>
+        </div>
+        
+        <figure class="qrcode">            
+            <img src="/qrcode/<%=codigo%>.png" alt="">
+        </figure>
     </div>
 </body>
 </html>

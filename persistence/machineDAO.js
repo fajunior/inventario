@@ -18,7 +18,7 @@ machineDAO.prototype.list = function (callback) {
 
 //Procedimentoi para buscar por codigo
 machineDAO.prototype.findByCode = function (codigo, callback) {
-    var sql = "select codigo, tipoEquipamento, modelo, mesAnoAquisicao, valorAquisicao, concat('qrcode/',codigo,'.png') as qrcodeURL from machine where codigo = ?";
+    var sql = "select codigo, tipoEquipamento, modelo, mesAnoAquisicao, valorAquisicao, concat('qrcode/',codigo,'.png') as qrcodeURL, nomeFoto from machine where codigo = ?";
     this._connection.query(sql, [codigo], callback);
 }
 

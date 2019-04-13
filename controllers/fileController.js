@@ -21,12 +21,13 @@ module.exports = function (app) {
         const basepath = 'public/pictures/';
         var count = 0;
         form.parse(req, function (err, fields, files) {
-            var fullFilename = files.filetoupload.name;
+            console.log(files);
+            var fullFilename = files.myfile.name;
             var filename = fullFilename.split('.').slice(0, -1).join('.');
             var fileExtencion = fullFilename.split('.').slice(-1)[0];
             var newFullFilename = filename + '.' + fileExtencion;
 
-            var oldpath = files.filetoupload.path;
+            var oldpath = files.myfile.path;
             var newpath = basepath + newFullFilename;
 
             while (fs.existsSync(newpath)) {
