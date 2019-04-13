@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da maquina</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    
+
+    <div class="container ">
+            <label>Codigo:</label>
+            <input type="number" id="codeInput" />
+            <input type="button" value="Enviar" onclick="find()">
+            <div class="container3 hidden" id="container3">Equipamento não encontrado</div>
+
+            <div class="container2 hidden" id="container2">
+                <div class="col-md-12"></div>
+                <div class="titulo">Detalhes da Máquina</div>
+                <div class="label">Codigo:</div>
+                <div class="description" id="codigo"></div>
+    
+                <div class="label">Tipo Equipamento:</div>
+                <div class="description" id="tipoEquipamento"></div>
+    
+                <div class="label">Modelo:</div>
+                <div class="description" id="modelo"></div>
+    
+                <div class="label">Aquisicao(Mes Ano):</div>
+                <div class="description" id="mesAnoAquisicao"></div>
+    
+                <div class="label">Valor Aquisicao:</div>
+                <div class="description" id="valorAquisicao"></div>
+    
+                <div class="label">Depreciacao:</div>
+                <div class="description" id="depreciacao"></div>
+    
+                <div class="label">Valor Atual:</div>
+                <div class="description" id="valorAtual"></div>
+    
+                <figure class="picture" id="figurePicture"><img  alt="imagem do equipamento" id="picture"></figure>
+            </div>
+            
+            <figure class="qrcode hidden" id="figureQrcode">            
+                <img  alt="qrcode" id="qrcode">
+            </figure>
+        </div>
+
+    <script src="js/find.js"></script>
+
+</body>
+
+</html>

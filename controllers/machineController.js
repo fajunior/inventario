@@ -1,8 +1,10 @@
+var moment = require('moment');
 const qr = require('qr-image');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 
-
+const configFile = fs.readFileSync('config/config.json');
+const config = JSON.parse(configFile);
 
 function getDao(app) {
     var connection = app.persistence.connectionFactory;
@@ -87,6 +89,29 @@ function enviarEmail(qrcodeName) {
     });
 }
 
+var consultaPorId = function(app, code){
+    return new Promise((resolve, reject) => {
+        var machineDAO = getDao(app);
+        machineDAO.findByCode(code, function (error, queryResult) {
+            machine = queryResult[0];                
+            resolve(machine);
+        });
+    });
+}
+
+var calcularDepreciacao = function(machine){
+    //calcula depreciação
+    moment.locale('pt-br');
+    
+    var data1 = moment(machine.mesAnoAquisicao, 'MM/YYYY');
+    var data2 = moment();
+    //tirando a diferenca da data2 - data1 em meses
+    var diff = data2.diff(data1, 'month');
+    machine.depreciacao = config.depreciacao * diff;
+    machine.valorAtual = machine.valorAquisicao - machine.depreciacao;
+    return machine;
+}
+
 module.exports = function (app) {
     //lista inventário
     app.get('/machine', function (req, res) {
@@ -127,74 +152,19 @@ module.exports = function (app) {
                 'qr_img': "qrcode/" + qrcodeName
             });
         });
-
-        /*
-        //Inserir máquina no banco
-        machineDAO.insert(machine, function (error, queryResult) {
-            if (error) {
-                console.log(error);
-                res.status(500).send('Não foi possível inserir objeto');
-            } else {
-                //recuperar a máquina com todos os dados
-                machineDAO.getCode(function (error2, queryResult2) {
-                    //recupera código da máquina inserida
-                    var newMachine = queryResult2[0];
-                    //Adiciona os dados passados na requisicao
-                    for (attribute in machine) {
-                        newMachine[attribute] = machine[attribute];
-                    }
-
-
-
-                    //Gera o qrcode a partir do json
-                    var qr_png = qr.imageSync(JSON.stringify(newMachine), {
-                        type: 'png'
-                    })
-                    let qr_code_file_name = newMachine.codigo + '.png';
-
-                    fs.writeFileSync('./public/qrcode/' + qr_code_file_name, qr_png, (err) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-
-                    //enviando email
-                    var transporter = nodemailer.createTransport({
-                        host: config.smtp,
-                        port: config.port,
-                        service: config.service,
-                        auth: {
-                            user: config.username,
-                            pass: config.password
-                        }
-                    });
-                    console.log(req);
-                    var message = '<p>Equipamento cadastrado com sucesso</p>';
-                    console.log(message);
-                    const mailOptions = {
-                        from: config.fromMail, // sender address
-                        to: config.destinationMail, // list of receivers
-                        subject: config.subjectMail, // Subject line
-                        html:  message,
-                        attachments: [{   // stream as an attachment
-                            filename: 'qrcode.jpg',
-                            content: fs.createReadStream('public/qrcode/'+ qr_code_file_name)
-                        }]// plain text body
-                    };
-
-                    transporter.sendMail(mailOptions, function (err, info) {
-                        if (err)
-                            console.log(err)
-                        else
-                            console.log(info);
-                    });
-                    res.location('/machine/' + machine.codigo);
-                    // Send the link of generated QR code
-                    res.status(201).send({
-                        'qr_img': "qrcode/" + qr_code_file_name
-                    });
-                });
-            }
-        });*/
     });
+
+    //Cadastra nova máquina
+    app.get('/buscar/:code', function (req, res) {
+        var code = req.params.code;
+        consultaPorId(app, code).then((resultado) => {
+            if (resultado){
+                var machine = calcularDepreciacao(resultado);
+                res.status(200).json(machine);
+            } else {
+                res.status(400).send('não encontrado');
+            }
+        });
+    });
+   
 }

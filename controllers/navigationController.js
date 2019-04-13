@@ -51,7 +51,7 @@ module.exports = function (app) {
         res.render('add');
     });
 
-    app.get('/bloq', function (req, res) {
-        res.render('bloq');
+    app.get('/buscar', function (req, res) {
+        res.render('find');
     });
 }

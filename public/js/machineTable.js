@@ -27,7 +27,7 @@ function criarLinhaJSON(elemento){
     linha.appendChild(coluna);
     
     coluna = document.createElement('td');
-    coluna.innerHTML = '<img src="img/detail.png" onclick="detail(this)"/><img src="img/edit.png" onclick="editar(this)"/><img src="img/delete.png" onclick="removeConfirm(this)"/>';
+    coluna.innerHTML = '<img src="img/detail.png" onclick="detail(this)"/><img src="img/delete.png" onclick="removeConfirm(this)"/>';
     linha.append(coluna);
     
     return linha;
