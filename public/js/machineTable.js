@@ -1,12 +1,8 @@
 var tbody = document.querySelector('tbody');
 
 function adicionarLinhaJSON(elemento) {
-    console.log(elemento);
     var linha = criarLinhaJSON(elemento);
-    
-    console.log(linha);
     tbody.appendChild(linha);
-    
 }
 
 function criarColunaValor(valor) {    
@@ -31,8 +27,16 @@ function criarLinhaJSON(elemento){
     linha.appendChild(coluna);
     
     coluna = document.createElement('td');
-    coluna.innerHTML = '<img src="img/detail.png" onclick="detalhar(this)"/><img src="img/edit.png" onclick="editar(this)"/><img src="img/delete.png" onclick="remover(this)"/>';
+    coluna.innerHTML = '<img src="img/detail.png" onclick="detail(this)"/><img src="img/edit.png" onclick="editar(this)"/><img src="img/delete.png" onclick="removeConfirm(this)"/>';
     linha.append(coluna);
     
     return linha;
+}
+
+function detail(element){
+    var linha = element.parentNode.parentNode;
+    var code = linha.getElementsByTagName('td')[0].textContent;
+    console.log('detail');
+
+    document.location.href = "http://localhost:3000/detalhes/" + code;
 }

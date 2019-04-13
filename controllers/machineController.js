@@ -28,6 +28,20 @@ module.exports = function (app) {
         });
     });
 
+    app.delete('/machine/:code', function(req, res){
+        var code = req.params.code;
+        var machineDAO = getDao(app);
+        machineDAO.delete(code, function (error, queryResult) {
+            /*try {
+                fs.unlinkSync(path)
+                //file removed
+              } catch(err) {
+                console.error(err)
+              }*/
+            res.send('removido');
+        });
+    });
+
     //Cadastra nova máquina
     app.post('/machine', function (req, res) {
         var machine = req.body;

@@ -82,8 +82,6 @@ td:last-child {
     box-shadow: inset -1px 0 0 #fff;
 }
 
-
-
 tr:nth-child(odd) td {
     background: #f1f1f1;
 }
@@ -111,4 +109,53 @@ td>img {
     right: 50px;;
     margin-right: 50px;
     margin-left: auto;
+}
+
+.fadeOut {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+/* tela de detalhes */
+div.container {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.titulo {
+    font-size: 5vw;
+    background-color: blue;
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    background: linear-gradient(#777, #444);
+    border-right: 1px solid #777;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #333;
+    border-collapse: separate;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+    color: #fff;
+    font-weight: bold;
+    /*padding: 10px 15px;*/
+    position: relative;
+    text-shadow: 0 1px 0 #000;
+}
+
+div.label{
+    min-width: 160px;
+    background: #D3D3D3;
+    float: left;
+    border-top: 2px solid #fff;
+}
+
+div.description{
+    width: calc(100% - 162px);
+    background: #e8e8e8;
+    
+    float: right;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
 }

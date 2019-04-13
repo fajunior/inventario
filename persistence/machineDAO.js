@@ -28,6 +28,12 @@ machineDAO.prototype.getCode = function (callback) {
     this._connection.query(sql, callback);
 }
 
+//Procedimentoi para excluir por codigo
+machineDAO.prototype.delete = function (codigo, callback) {
+    var sql = "delete from machine where codigo = ?";
+    this._connection.query(sql, [codigo], callback);
+}
+
 module.exports = function () {
     return machineDAO;
 }
