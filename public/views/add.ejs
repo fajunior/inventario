@@ -32,10 +32,10 @@
 
                     <div class="buttons">
                         <div class="picturebutton">
-                            <button type="button" onclick="addPicture()">Adicionar Foto</button>
+                            <button id="attach" type="button" onclick="addPicture()">Adicionar Foto</button>
                         </div>
                         <div class="manipulationbutton">
-                            <button type="submit" id="save">Salvar</button>
+                            <button type="button" id="save" onclick="add()">Salvar</button>
                             <button type="button" id="cancel"
                                 onclick="document.location.href = 'http://localhost:3000/'">Cancelar</button>
                         </div>
@@ -50,8 +50,8 @@
                         <input type="file" id="fileoupload">
                     </div>
                     <div class="divenviar">
-                        <input type="button" value="Enviar" onclick="sendPicture()">
-                        <input type="button" value="Cancelar" onclick="closePictureBox()">
+                        <input type="button" id="send" value="Enviar" onclick="sendPicture()">
+                        <input type="button" id="cancelSend" value="Cancelar" onclick="closePictureBox()">
                     </div>
                 </div>
             </div>
@@ -59,12 +59,17 @@
 
         </form>
 
+        <figure class="hidden">
+            <img alt="qrcode" id="qrcode">
+        </figure>
+
         <div id="divbloqueio">
         </div>
 
     </main>
 
     <script src="js/picture.js"></script>
+    <script src="js/add.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 function mail(){
-    console.log('create');
 }
 
 mail.prototype.sendMail = function (qrcodeName) {

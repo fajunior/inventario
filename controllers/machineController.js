@@ -1,7 +1,5 @@
 var moment = require('moment');
-const qr = require('qr-image');
 const fs = require('fs');
-
 
 const configFile = fs.readFileSync('config/config.json');
 const config = JSON.parse(configFile);
@@ -12,8 +10,9 @@ function getDao(app) {
     return machineDAO;
 }
 
-var inserir = function (machine, app) {
+var inserir = function (machine, app, res) {
     return new Promise((resolve, reject) => {
+        console.log(machine);
         var machineDAO = getDao(app);
         //Inserir máquina no banco
         machineDAO.insert(machine, function (error, queryResult) {
@@ -81,7 +80,7 @@ module.exports = function (app) {
               } catch(err) {
                 console.error(err)
               }*/
-            res.send('removido');
+            res.status(202).send('removido');
         });
     });
 
@@ -90,15 +89,13 @@ module.exports = function (app) {
         var machine = req.body;
         var machineDAO = getDao(app);
 
-
-        inserir(machine, app).then((resultado) => {
-            console.log(resultado);
+        inserir(machine, app, res).then((resultado) => {
             //gerar qrcode
             var qrcode = new app.services.qrcode;
             var qrcodeName = qrcode.gerarQRCode(resultado);
             //enviar email
             var mail = new app.services.mail;
-            mail.sendMail(qrcodeName);
+            //mail.sendMail(qrcodeName);
             //enviarEmail(qrcodeName);
             res.location('/machine/' + machine.codigo);
             // Send the link of generated QR code
@@ -108,7 +105,7 @@ module.exports = function (app) {
         });
     });
 
-    //Cadastra nova máquina
+    //Buscar nova máquina
     app.get('/buscar/:code', function (req, res) {
         var code = req.params.code;
         consultaPorId(app, code).then((resultado) => {
@@ -116,7 +113,7 @@ module.exports = function (app) {
                 var machine = calcularDepreciacao(resultado);
                 res.status(200).json(machine);
             } else {
-                res.status(400).send('não encontrado');
+                res.status(204).send('não encontrado');
             }
         });
     });

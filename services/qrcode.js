@@ -2,7 +2,6 @@ const qr = require('qr-image');
 const fs = require('fs');
 
 function qrcode(){
-    console.log('create');
 }
 
 qrcode.prototype.gerarQRCode = function (newMachine) {

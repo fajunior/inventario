@@ -22,15 +22,15 @@ function find() {
 
                 if (machine.nomeFoto) {
                     document.querySelector("#figurePicture").classList.remove("hidden");
-                    var att = document.createAttribute("src"); // Create a "class" attribute
-                    att.value = "/pictures/"+machine.nomeFoto; // Set the value of the class attribute
+                    var att = document.createAttribute("src"); 
+                    att.value = "/pictures/"+machine.nomeFoto; 
                     document.querySelector("#picture").setAttributeNode(att);
                 } else {
                     document.querySelector("#figurePicture").classList.add("hidden");
                 }
                 document.querySelector("#figureQrcode").classList.remove("hidden");
-                var qrcodeAtt = document.createAttribute("src"); // Create a "class" attribute
-                qrcodeAtt.value = machine.qrcodeURL; // Set the value of the class attribute
+                var qrcodeAtt = document.createAttribute("src");
+                qrcodeAtt.value = machine.qrcodeURL; 
                 document.querySelector("#qrcode").setAttributeNode(qrcodeAtt);
                 containerNotFound.classList.add("hidden");
 
