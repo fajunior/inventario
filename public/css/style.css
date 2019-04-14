@@ -118,10 +118,18 @@ td>img {
     position: fixed;
     bottom: 50px;
     right: 50px;
-    ;
     margin-right: 50px;
     margin-left: auto;
 }
+
+.searchButton {
+    position: fixed;
+    bottom: 110px;
+    right: 50px;
+    margin-right: 50px;
+    margin-left: auto;
+}
+
 
 .fadeOut {
     opacity: 0;
@@ -134,6 +142,21 @@ div.container {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    display: block;
+}
+
+div.erros {
+    margin-top: 300px;
+    display: inline-table;
+    margin-left: -200px
+}
+
+div.containeradd {
+    width: 70%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
     display: block;
 }
 

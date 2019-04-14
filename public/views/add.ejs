@@ -10,8 +10,9 @@
 
 <body>
     <main>
+            
         <form action="/machine" method="POST">
-            <div class="container">
+            <div class="containeradd">
                 <div class="container2">
                     <div class="col-md-12"></div>
                     <div class="titulo">Detalhes da Máquina</div>
@@ -22,11 +23,11 @@
                     <div class="label">Modelo:</div>
                     <div class="description"><input type="text" name="modelo"></div>
 
-                    <div class="label">Aquisicao(Mes Ano):</div>
-                    <div class="description"><input type="text" name="mesAnoAquisicao"></div>
+                    <div class="label">Aquisicao(mmyyyy):</div>
+                    <div class="description"><input onkeypress="validar(this); return numerico(event);" type="text" name="mesAnoAquisicao"></div>
 
                     <div class="label">Valor Aquisicao:</div>
-                    <div class="description"><input type="text" name="valorAquisicao"></div>
+                    <div class="description"><input type="number" min="1" step="any" name="valorAquisicao"></div>
 
                     <input type="hidden" name="nomeFoto" id="nomeFoto">
 
@@ -58,6 +59,12 @@
 
 
         </form>
+        <div class="erros">
+                <ul id="erros">
+    
+                </ul>
+            </div>
+       
 
         <figure class="hidden">
             <img alt="qrcode" id="qrcode">
@@ -67,6 +74,7 @@
         </div>
 
     </main>
+    
 
     <script src="js/picture.js"></script>
     <script src="js/add.js"></script>

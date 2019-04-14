@@ -6,6 +6,7 @@ var consign = require('consign');
 var bodyparser = require('body-parser');
 //importa o ejs
 const ejs = require('ejs');
+var expressValidator = require('express-validator');
 
 module.exports = function(){
     var app = express();
@@ -16,6 +17,8 @@ module.exports = function(){
     app.use(bodyparser.urlencoded({extended: true}));
     // Set static folder
     app.use(express.static('./public'));
+    //validador
+    app.use(expressValidator());
 
     // Set view engine
     app.set('views', './public' + '/views');

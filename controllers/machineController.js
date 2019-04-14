@@ -37,20 +37,20 @@ var inserir = function (machine, app, res) {
     });
 }
 
-var consultaPorId = function(app, code){
+var consultaPorId = function (app, code) {
     return new Promise((resolve, reject) => {
         var machineDAO = getDao(app);
         machineDAO.findByCode(code, function (error, queryResult) {
-            machine = queryResult[0];                
+            machine = queryResult[0];
             resolve(machine);
         });
     });
 }
 
-var calcularDepreciacao = function(machine){
+var calcularDepreciacao = function (machine) {
     //calcula depreciação
     moment.locale('pt-br');
-    
+
     var data1 = moment(machine.mesAnoAquisicao, 'MM/YYYY');
     var data2 = moment();
     //tirando a diferenca da data2 - data1 em meses
@@ -89,6 +89,45 @@ module.exports = function (app) {
         var machine = req.body;
         var machineDAO = getDao(app);
 
+        req.assert("tipoEquipamento",
+            "Tipo de equipamento é obrigatório").notEmpty();
+        req.assert("tipoEquipamento",
+            "Tamanho máximo do tipo de equipamento é 50").isLength({
+            max: 50
+        });
+
+        req.assert("modelo",
+                "Modelo é obrigatório")
+            .notEmpty();
+        req.assert("modelo",
+            "Tamanho máximo do modelo do equipamento é 50").isLength({
+            max: 50
+        });
+
+        req.assert("mesAnoAquisicao",
+                "Mês e ano do equipamento é obrigatório")
+            .notEmpty();
+        req.assert("mesAnoAquisicao",
+            "Tamanho máximo do mês e ano do equipamento é 6").isLength({
+            max: 6
+        });
+        req.assert("mesAnoAquisicao",
+            "Mês e ano do equipamento deve ser numérico").isNumeric();
+
+        req.assert("valorAquisicao",
+                "Valor Aquisicao é obrigatório")
+            .notEmpty();
+        req.assert("valorAquisicao",
+                "Valor Aquisicao deve ser decimal")
+            .isFloat();
+        var erros = req.validationErrors();
+
+        if (erros) {
+            console.log('Erros de validacao encontrados');
+            res.status(400).send(erros);
+            return;
+        }
+
         inserir(machine, app, res).then((resultado) => {
             //gerar qrcode
             var qrcode = new app.services.qrcode;
@@ -98,12 +137,14 @@ module.exports = function (app) {
             mail.sendMail(qrcodeName, function (result, err) {
                 console.log(result);
             });
-            
+
             res.location('/machine/' + machine.codigo);
             // Send the link of generated QR code
             res.status(201).send({
                 'qr_img': "qrcode/" + qrcodeName
             });
+        }).catch(err => {
+            console.log(err);
         });
     });
 
@@ -111,7 +152,7 @@ module.exports = function (app) {
     app.get('/buscar/:code', function (req, res) {
         var code = req.params.code;
         consultaPorId(app, code).then((resultado) => {
-            if (resultado){
+            if (resultado) {
                 var machine = calcularDepreciacao(resultado);
                 res.status(200).json(machine);
             } else {
@@ -119,5 +160,5 @@ module.exports = function (app) {
             }
         });
     });
-   
+
 }

@@ -34,7 +34,7 @@ function find() {
                 document.querySelector("#qrcode").setAttributeNode(qrcodeAtt);
                 containerNotFound.classList.add("hidden");
 
-            } else if (this.readyState == 4 && this.status == 400) {
+            } else if (this.readyState == 4 && this.status == 204) {
                 document.querySelector("#figureQrcode").classList.add("hidden");
                 document.querySelector("#figurePicture").classList.add("hidden");
                 containerResult.classList.add("hidden");

@@ -1,45 +1,44 @@
-const nodemailer = require('nodemailer');
-const fs = require('fs');
+function mail() {
 
-function mail() {}
+}
 
 mail.prototype.sendMail = function (qrcodeName, callback) {
-    var configFile = fs.readFileSync('config/config.json');
-    var config = JSON.parse(configFile);
-    //enviando email
-    var transporter = nodemailer.createTransport({
-        host: config.smtp,
-        port: config.port,
-        service: config.service,
-        auth: {
-            user: config.username,
-            pass: config.password
-        }
+    // Require'ing module and setting default options
+
+    var send = require('gmail-send')({
+        //var send = require('../index.js')({
+        user: 'fajunior@gmail.com',
+        // user: credentials.user,                  // Your GMail account used to send emails
+        pass: 'aykglcecybjfwwjf',
+        // pass: credentials.pass,                  // Application-specific password
+        to: 'fcoajunior@gmail.com',
+        // to:   credentials.user,                  // Send to yourself
+        // you also may set array of recipients:
+        // [ 'user1@gmail.com', 'user2@gmail.com' ]
+        // from:    credentials.user,            // from: by default equals to user
+        // replyTo: credentials.user,            // replyTo: by default undefined
+        // bcc: 'some-user@mail.com',            // almost any option of `nodemailer` will be passed to it
+        subject: 'test subject',
+        text: 'gmail-send example 1', // Plain text
+        //html:    '<b>html text</b>'            // HTML
     });
 
-    var message = '<p>Equipamento cadastrado com sucesso</p>';
-    console.log(message);
-    const mailOptions = {
-        from: config.fromMail, // sender address
-        to: config.destinationMail, // list of receivers
-        subject: config.subjectMail, // Subject line
-        html: message,
-        attachments: [{ // stream as an attachment
-            filename: 'qrcode.jpg',
-            content: fs.createReadStream('public/qrcode/' + qrcodeName)
-        }] // plain text body
-    };
+    var filepath = 'public/qrcode/' + qrcodeName; // File to attach
 
-    transporter.sendMail(mailOptions, function (err, info) {
+    send({ // Overriding default parameters
+        subject: 'attached ' + filepath, // Override value set as default
+        files: [filepath],
+    }, function (err, res) {
+        console.log('* [example 1.1] send() callback returned: err:', err, '; res:', res);
         if (err) {
-            console.log(err);
-            callback(null,err);
+            callback(null, err);
         } else {
-            console.log(info);
-            callback(info,null);
+            callback(res, null);
         }
     });
+
 }
+
 module.exports = function () {
     return mail;
 }

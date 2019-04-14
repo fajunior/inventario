@@ -3,12 +3,12 @@
     "serviceMail": "gmail",
     "user": "t1021093@nwytg.net",
     "pass": "[xn;FUw4vLbw",
-    "username": "bda97964eb465f",
-    "password":"9ea6ed4e214122",
-    "fromMail": "974d03c878-96320c@inbox.mailtrap.io",
-    "destinationMail": "testedev@yopmail.com",
+    "username": "fajr.dev@yahoo.com",
+    "password":"Teste@Cin",
+    "fromMail": "fajr.dev@yahoo.com",
+    "destinationMail": "fcoajunior@gmail.com",
     "subjectMail":"Inventário de equipamento",
-    "smtp": "smtp.mailtrap.io",
-    "port":25
+    "smtp": "smtp.mail.yahoo.com",
+    "port":465
  
 }
