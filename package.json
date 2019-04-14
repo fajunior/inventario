@@ -4,7 +4,7 @@
   "description": "Cadastro de inventario",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/mail.test | tap-spec"
+    "test": "node tests/machineDAO.test | tap-spec"
   },
   "repository": {
     "type": "git",
