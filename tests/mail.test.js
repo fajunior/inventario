@@ -2,8 +2,20 @@ var test = require('tape');
 var mailImp = require('../services/mail')();
 const fs = require('fs');
 const fsextra = require('fs-extra');
+var qrcode = require('../services/qrcode')();
 
 var path = 'config/'
+
+var qrpath = 'public/qrcode/2.png';
+console.log(fs.existsSync(qrpath));
+if (!fs.existsSync(qrpath)){
+    console.log('criando arquivo para anexar');
+    var machine = {"codigo":2,"tipoEquipamento":"notebook","modelo":"samsung","mesAnoAquisicao":"042019","valorAquisicao":6000}
+    var qr = new qrcode;
+    qr.gerarQRCode(machine, 'public/qrcode/');
+}
+
+
 
 test('Envia e-mail sucesso', (t) => {
     if (fs.existsSync(path + 'config.json')) {
