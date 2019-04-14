@@ -1,7 +1,7 @@
 var moment = require('moment');
 const qr = require('qr-image');
 const fs = require('fs');
-const nodemailer = require('nodemailer');
+
 
 const configFile = fs.readFileSync('config/config.json');
 const config = JSON.parse(configFile);
@@ -35,57 +35,6 @@ var inserir = function (machine, app) {
             }
 
         });
-    });
-}
-
-function gerarQRCode(newMachine) {
-    //Gera o qrcode a partir do json
-    var qr_png = qr.imageSync(JSON.stringify(newMachine), {
-        type: 'png'
-    })
-    let qr_code_file_name = newMachine.codigo + '.png';
-
-    fs.writeFileSync('./public/qrcode/' + qr_code_file_name, qr_png, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    })
-
-    return qr_code_file_name;
-}
-
-function enviarEmail(qrcodeName) {
-    var configFile = fs.readFileSync('config/config.json');
-    var config = JSON.parse(configFile);
-    //enviando email
-    var transporter = nodemailer.createTransport({
-        host: config.smtp,
-        port: config.port,
-        service: config.service,
-        auth: {
-            user: config.username,
-            pass: config.password
-        }
-    });
-
-    var message = '<p>Equipamento cadastrado com sucesso</p>';
-    console.log(message);
-    const mailOptions = {
-        from: config.fromMail, // sender address
-        to: config.destinationMail, // list of receivers
-        subject: config.subjectMail, // Subject line
-        html: message,
-        attachments: [{ // stream as an attachment
-            filename: 'qrcode.jpg',
-            content: fs.createReadStream('public/qrcode/' + qrcodeName)
-        }] // plain text body
-    };
-
-    transporter.sendMail(mailOptions, function (err, info) {
-        if (err)
-            console.log(err)
-        else
-            console.log(info);
     });
 }
 
@@ -144,8 +93,13 @@ module.exports = function (app) {
 
         inserir(machine, app).then((resultado) => {
             console.log(resultado);
-            var qrcodeName = gerarQRCode(resultado);
-            enviarEmail(qrcodeName);
+            //gerar qrcode
+            var qrcode = new app.services.qrcode;
+            var qrcodeName = qrcode.gerarQRCode(resultado);
+            //enviar email
+            var mail = new app.services.mail;
+            mail.sendMail(qrcodeName);
+            //enviarEmail(qrcodeName);
             res.location('/machine/' + machine.codigo);
             // Send the link of generated QR code
             res.status(201).send({

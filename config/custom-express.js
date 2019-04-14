@@ -26,6 +26,7 @@ module.exports = function(){
         .include('controllers')
         //importa pasta de persistencia
         .then('persistence')
+        .then('services')
         //adiciona os controladores ao app
         .into(app);
 

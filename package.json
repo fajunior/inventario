@@ -4,7 +4,7 @@
   "description": "Cadastro de inventario",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node runAll.test | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,13 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "formidable": "^1.2.1",
+    "fs-extra": "^7.0.1",
     "moment": "^2.24.0",
     "mysql": "^2.16.0",
     "nodemailer": "^6.1.0",
-    "qr-image": "^3.2.0"
+    "qr-image": "^3.2.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.10.1",
+    "tape-promise": "^4.0.0"
   }
 }
