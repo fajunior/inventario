@@ -127,6 +127,19 @@ module.exports = function (app) {
             res.status(400).send(erros);
             return;
         }
+        var validacaoData = moment(machine.mesAnoAquisicao, 'MM/YYYY');
+        if (isNaN(validacaoData)) {
+            var dataInvalida = [];
+            dataInvalida.push({
+                location: 'body',
+                param: 'mesAnoAquisicao',
+                msg: 'Data inválida',
+                value: machine.mesAnoAquisicao
+            });
+            res.status(400).send(dataInvalida);
+            return;
+        }
+        console.log('validacaoData' + validacaoData);
 
         inserir(machine, app, res).then((resultado) => {
             //gerar qrcode

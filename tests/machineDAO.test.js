@@ -1,13 +1,17 @@
-//const test = require('tape');
-var test = require('tape')
+//var test = require('tape');
+const test = require('tape-async');
 
-test('Maior codigo não zero', (t) => {
-    var connection = require('../persistence/connectionFactory')();
-    var dao = require('../persistence/machineDAO')();
-    var machineDAO = new dao(connection);
-    machineDAO.getCode(function (error, queryResult) {
-        console.log(queryResult.codigo);
+//instanciar o express
+const app = require('../config/custom-express')();;
+
+
+test('Maior codigo não zero', async  (t) => {
+    var connection = app.persistence.connectionFactory;
+    var machineDAO = new app.persistence.machineDAO(connection);
+    await machineDAO.getCode(function (erro, queryResult) {
+        console.log(queryResult);
+        connection = null;
     });
-    t.assert(1 == 1, "Descontou corretamente");
+    t.equal(1,1, "teste");
     t.end();
 });
