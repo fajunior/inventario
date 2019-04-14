@@ -1,14 +1,7 @@
 {
     "depreciacao": 3,
-    "serviceMail": "gmail",
-    "user": "t1021093@nwytg.net",
-    "pass": "[xn;FUw4vLbw",
-    "username": "fajr.dev@yahoo.com",
-    "password":"Teste@Cin",
-    "fromMail": "fajr.dev@yahoo.com",
+    "username": "fajunior@gmail.com",
+    "password":"aykglcecybjfwwjf",
     "destinationMail": "fcoajunior@gmail.com",
-    "subjectMail":"Inventário de equipamento",
-    "smtp": "smtp.mail.yahoo.com",
-    "port":465
- 
+    "subjectMail":"Inventário de equipamento"
 }
