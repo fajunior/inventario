@@ -92,11 +92,13 @@ module.exports = function (app) {
         inserir(machine, app, res).then((resultado) => {
             //gerar qrcode
             var qrcode = new app.services.qrcode;
-            var qrcodeName = qrcode.gerarQRCode(resultado);
+            var qrcodeName = qrcode.gerarQRCode(resultado, './public/qrcode/');
             //enviar email
             var mail = new app.services.mail;
-            //mail.sendMail(qrcodeName);
-            //enviarEmail(qrcodeName);
+            mail.sendMail(qrcodeName, function (result, err) {
+                console.log(result);
+            });
+            
             res.location('/machine/' + machine.codigo);
             // Send the link of generated QR code
             res.status(201).send({

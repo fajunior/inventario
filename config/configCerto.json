@@ -1,0 +1,14 @@
+{
+    "depreciacao": 3,
+    "serviceMail": "gmail",
+    "user": "t1021093@nwytg.net",
+    "pass": "[xn;FUw4vLbw",
+    "username": "bda97964eb465f",
+    "password":"9ea6ed4e214122",
+    "fromMail": "974d03c878-96320c@inbox.mailtrap.io",
+    "destinationMail": "testedev@yopmail.com",
+    "subjectMail":"Inventário de equipamento",
+    "smtp": "smtp.mailtrap.io",
+    "port":25
+ 
+}

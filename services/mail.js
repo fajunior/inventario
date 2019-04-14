@@ -1,9 +1,9 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-function mail(){
-}
 
-mail.prototype.sendMail = function (qrcodeName) {
+function mail() {}
+
+mail.prototype.sendMail = function (qrcodeName, callback) {
     var configFile = fs.readFileSync('config/config.json');
     var config = JSON.parse(configFile);
     //enviando email
@@ -31,10 +31,13 @@ mail.prototype.sendMail = function (qrcodeName) {
     };
 
     transporter.sendMail(mailOptions, function (err, info) {
-        if (err)
-            console.log(err)
-        else
+        if (err) {
+            console.log(err);
+            callback(null,err);
+        } else {
             console.log(info);
+            callback(info,null);
+        }
     });
 }
 module.exports = function () {

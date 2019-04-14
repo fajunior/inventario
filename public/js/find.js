@@ -11,7 +11,7 @@ function find() {
             if (this.readyState == 4 && this.status == 200) {
                 var machine = JSON.parse(this.responseText);
                 containerResult.classList.remove('hidden');
-                console.log(machine);
+                console.log(this.responseText);
                 document.querySelector("#codigo").textContent = machine.codigo;
                 document.querySelector("#tipoEquipamento").textContent = machine.tipoEquipamento;
                 document.querySelector("#modelo").textContent = machine.modelo;
