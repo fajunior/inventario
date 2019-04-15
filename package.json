@@ -4,7 +4,7 @@
   "description": "Cadastro de inventario",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/machineDAO.test | tap-spec"
+    "test": "node tests/navigationController.test | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -32,8 +32,10 @@
     "mysql": "^2.16.0",
     "nodemailer": "^6.1.0",
     "qr-image": "^3.2.0",
+    "supertest": "^4.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^4.10.1",
+    "tape-async": "^2.3.0",
     "tape-promise": "^4.0.0"
   }
 }

@@ -31,8 +31,10 @@
 
             <div class="label">Valor Atual:</div>
             <div class="description"><%=valorAtual%></div>
+            <% if (nomeFoto) { %>
+                <figure class="picture"><img src="/pictures/<%=nomeFoto%>" alt=""></figure>
+              <% } %>
 
-            <figure class="picture"><img src="/pictures/<%=nomeFoto%>" alt=""></figure>
         </div>
         
         <figure class="qrcode">            
